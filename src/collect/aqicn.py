@@ -1,5 +1,5 @@
 from datetime import datetime
-from ..config.settings import AQICN_TOKEN, CITIES
+from config.settings import AQICN_TOKEN, CITIES
 import requests
 
 BASE_URL = "https://api.waqi.info/feed/geo:{lat};{lon}/?token={token}"
@@ -16,6 +16,8 @@ def collect_city(city: dict) -> dict | None:
             data = result["data"]
             return {
                 "city": city["name"],
+                "lat": city["lat"],
+                "lon": city["lon"],
                 "aqi": data.get("aqi"),
                 "pm25": data.get("iaqi", {}).get("pm25", {}).get("v"),
                 "pm10": data.get("iaqi", {}).get("pm10", {}).get("v"),

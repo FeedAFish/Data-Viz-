@@ -1,3 +1,5 @@
+CREATE DATABASE algo_db;
+
 \c algo_db
 
 -- Create airflow user for Airflow connections
@@ -28,9 +30,9 @@ CREATE TABLE air_quality_records (
     so2 FLOAT,
     o3 FLOAT,
     co FLOAT,
-    is_valid BOOLEAN DEFAULT TRUE,
-    anomaly BOOLEAN DEFAULT FALSE,
-    CONSTRAINT uq_air_city_time UNIQUE (city_id, recorded_at)
+    -- is_valid BOOLEAN DEFAULT TRUE,
+    -- anomaly BOOLEAN DEFAULT FALSE,
+    UNIQUE (city_id, recorded_at)
 );
 
 -- Grant all privileges to airflow user

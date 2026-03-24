@@ -3,3 +3,5 @@
 docker/
 test*.*
 __pycache__/
+airflow/*
+!airflow/dags/

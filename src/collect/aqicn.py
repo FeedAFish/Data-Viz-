@@ -1,5 +1,5 @@
 from datetime import datetime
-from ..config.settings import AQICN_TOKEN
+from ..config.settings import AQICN_TOKEN, CITIES
 import requests
 
 BASE_URL = "https://api.waqi.info/feed/geo:{lat};{lon}/?token={token}"
@@ -26,3 +26,13 @@ def collect_city(city: dict) -> dict | None:
     except Exception as e:
         print(f"Erreur inattendue AQICN : {e}")
         return None
+
+
+def collect_all() -> list[dict]:
+    results = []
+    for city in CITIES:
+        record = collect_city(city)
+        if record:
+            results.append(record)
+    print(f"AQICN : {len(results)}/{len(CITIES)} villes collectées.")
+    return results

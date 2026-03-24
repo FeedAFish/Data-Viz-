@@ -34,12 +34,21 @@ build() {
     echo "Build complete"
 }
 
+clean() {
+    echo "Cleaning up..."
+    $COMPOSE_CMD down --rmi all --volumes --remove-orphans
+    echo "Removing pgdata directory..."
+    rm -rf "${SCRIPT_DIR}/docker/pgdata"
+    echo "Cleanup complete"
+}
+
 case "${1:-help}" in
     start|up)    start ;;
     stop|down)   stop ;;
     restart)     restart ;;
     shell|sh)    shell "$2" ;;
     build)       build ;;
+    clean)       clean ;;
     help|-h|--help) help ;;
     *)
         echo "Unknown command: $1"

@@ -1,13 +1,16 @@
 import sys
+import os
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-# Add src directory to path to import custom modules
-sys.path.insert(0, "/opt/airflow/src")
+# Add dags directory to path so src modules can be imported
+# Works both locally and in Docker
+dags_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, dags_dir)
 
-from collect.aqicn import collect_all
-from db import insert_air_quality_records
+from src.collect.aqicn import collect_all
+from src.db import insert_air_quality_records
 
 # Define default arguments
 default_args = {
@@ -21,16 +24,14 @@ default_args = {
 dag = DAG(
     "update_air_quality_data",
     default_args=default_args,
-    description="Update air quality data every 5 minutes",
-    schedule_interval="*/5 * * * *",
+    description="Update air quality data every hour at 5 minutes past",
+    schedule_interval="5 * * * *",
     catchup=False,
 )
 
 
 # Define the task function
-def print_hello_world():
-    """Collect air quality data from all cities and insert into database."""
-    print("Collecting air quality data...")
+def collect_and_insert_air_quality_data():
     records = collect_all()
     if records:
         insert_air_quality_records(records)
@@ -41,6 +42,6 @@ def print_hello_world():
 # Create a Python operator task
 hello_task = PythonOperator(
     task_id="update_air_quality_data",
-    python_callable=print_hello_world,
+    python_callable=collect_and_insert_air_quality_data,
     dag=dag,
 )

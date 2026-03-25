@@ -14,7 +14,6 @@ x-airflow-common:
     - ./airflow/dags:/opt/airflow/dags
     - ./airflow/logs:/opt/airflow/logs
     - ./airflow/plugins:/opt/airflow/plugins
-    - ./src:/opt/airflow/src
     - ./.env.example:/opt/airflow/.env
   depends_on:
     postgres:

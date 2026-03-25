@@ -42,10 +42,29 @@ clean() {
     echo "Cleanup complete"
 }
 
+db() {
+    echo "Starting database only..."
+    $COMPOSE_CMD up -d postgres
+    sleep 3
+    echo "Database started successfully."
+}
+
+afd() {
+    echo "Stopping all services except database..."
+    $COMPOSE_CMD stop airflow-webserver airflow-scheduler airflow-worker airflow-triggerer airflow-init
+    echo "Services stopped. Database is still running."
+}
+
+help() {
+    echo "Usage: $0 {start|stop|restart|db|stop-services|shell|build|clean|help}"
+}
+
 case "${1:-help}" in
     start|up)    start ;;
     stop|down)   stop ;;
     restart)     restart ;;
+    db|database) db ;;
+    afd|airflowdown) afd ;;
     shell|sh)    shell "$2" ;;
     build)       build ;;
     clean)       clean ;;

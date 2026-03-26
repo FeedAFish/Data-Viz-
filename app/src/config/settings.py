@@ -2,9 +2,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load .env from Airflow home directory in Docker or current directory locally
 env_file = Path(".env")
-
 load_dotenv(env_file)
 
 # ── Base de données PostgreSQL ──────────────────────────────────────────────
@@ -33,3 +31,8 @@ CITIES = [
     {"name": "Strasbourg", "lat": 48.5734, "lon": 7.7521},
     {"name": "Lille", "lat": 50.6292, "lon": 3.0573},
 ]
+
+# ── Dash parameters ──────────────────────────────────────────────────────
+DASH_HOST = os.getenv("DASH_HOST", "localhost")
+DASH_PORT = int(os.getenv("DASH_PORT", 8050))
+DASH_DEBUG = os.getenv("DASH_DEBUG", "False") == "True"

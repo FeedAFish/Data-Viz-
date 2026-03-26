@@ -14,20 +14,25 @@ def get_engine():
 
 
 def get_latest_air_kpis(city_name: str | None = None) -> dict:
-    """Derniers KPIs de qualité de l'air par ville (1 ligne / ville)."""
-    engine = get_engine()
-    sql = f"""
-        SELECT DISTINCT ON (c.name)
-            c.name AS city,
-            a.aqi
-        FROM air_quality_records a
-        JOIN cities c ON c.id = a.city_id
-        ORDER BY c.name, a.recorded_at DESC
-    """
-    with engine.connect() as conn:
-        result = conn.execute(text(sql))
-        rows = result.fetchall()
+    try:
+        engine = get_engine()
+        sql = f"""
+            SELECT DISTINCT ON (c.name)
+                c.name AS city,
+                a.aqi,
+                a.pm25
+            FROM air_quality_records a
+            JOIN cities c ON c.id = a.city_id
+            ORDER BY c.name, a.recorded_at DESC
+        """
+        with engine.connect() as conn:
+            result = conn.execute(text(sql))
+            rows = result.fetchall()
 
-    data = [dict(row._mapping) for row in rows]
+        data = [dict(row._mapping) for row in rows]
 
-    return {"success": True, "data": data, "count": len(data)}
+        return {"success": True, "data": data, "count": len(data)}
+    except Exception as e:
+        error_msg = f"Error fetching KPIs: {str(e)}"
+        print(error_msg)
+        return {"success": False, "error": error_msg}

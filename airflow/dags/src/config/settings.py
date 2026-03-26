@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Load .env from Airflow home directory in Docker or current directory locally
 env_file = (
     Path("/opt/airflow/.env") if Path("/opt/airflow/.env").exists() else Path(".env")
 )

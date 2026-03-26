@@ -2,7 +2,8 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-env_file = Path(".env")
+# Load .env from Docker app directory or current directory
+env_file = Path("/app/.env") if Path("/app/.env").exists() else Path(".env")
 load_dotenv(env_file)
 
 # ── Base de données PostgreSQL ──────────────────────────────────────────────

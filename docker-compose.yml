@@ -69,3 +69,29 @@ services:
     restart: on-failure
     depends_on:
       - airflow-init
+
+  dashboard:
+    image: python:3.11-slim
+    container_name: dashboard-app
+    restart: always
+    working_dir: /
+    command: >
+      bash -c "pip install --no-cache-dir -r requirements.txt &&
+               python app"
+    ports:
+      - "8050:8050"
+    volumes:
+      - ./app:/app
+      - ./.env.example:/app/.env
+      - ./requirements.txt:/requirements.txt
+    environment:
+      DASH_HOST: 0.0.0.0
+      DASH_PORT: 8050    
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8050/"]
+      interval: 10s
+      timeout: 10s
+      retries: 5

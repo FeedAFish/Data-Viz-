@@ -3,7 +3,7 @@ from dash import dcc, html, Input, Output
 import dash_bootstrap_components as dbc
 
 from analytics.aqicn import get_latest_air_kpis
-from config.settings import CITIES, DASH_HOST, DASH_PORT, DASH_DEBUG
+from config.settings import DASH_HOST, DASH_PORT, DASH_DEBUG
 
 app = dash.Dash(
     __name__,
@@ -87,7 +87,7 @@ def update_kpi_cards(n_intervals):
         cards = []
         for row in reponse["data"]:
             aqi = row["aqi"] if row["aqi"] else "N/A"
-            color = get_aqi_gradient_color(aqi)
+            color = get_aqi_gradient_color(aqi) if aqi != "N/A" else "grey"
 
             cards.append(
                 dbc.Col(

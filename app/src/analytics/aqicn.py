@@ -1,38 +1,16 @@
-import sys
+import requests
 import os
-
-# Import src setup to add to path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from config.settings import DATABASE_URL
-from sqlalchemy import create_engine, text
-import json
-
-
-def get_engine():
-    return create_engine(DATABASE_URL, echo=False)
+from config.settings import API_URL
 
 
 def get_latest_air_kpis(city_name: str | None = None) -> dict:
     try:
-        engine = get_engine()
-        sql = f"""
-            SELECT DISTINCT ON (c.name)
-                c.name AS city,
-                a.aqi,
-                a.pm25
-            FROM air_quality_records a
-            JOIN cities c ON c.id = a.city_id
-            ORDER BY c.name, a.recorded_at DESC
-        """
-        with engine.connect() as conn:
-            result = conn.execute(text(sql))
-            rows = result.fetchall()
-
-        data = [dict(row._mapping) for row in rows]
-
-        return {"success": True, "data": data, "count": len(data)}
+        endpoint = f"{API_URL}/air-quality/latest"
+        response = requests.get(endpoint, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        return {"success": True, "data": data[0], "message": ""}
     except Exception as e:
         error_msg = f"Error fetching KPIs: {str(e)}"
         print(error_msg)
-        return {"success": False, "error": error_msg}
+        return {"success": False, "data": [], "message": error_msg}

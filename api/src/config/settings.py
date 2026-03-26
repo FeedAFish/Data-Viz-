@@ -6,7 +6,7 @@ env_file = Path(".env")
 load_dotenv(env_file)
 
 # ── Base de données PostgreSQL ──────────────────────────────────────────────
-DB_HOST = os.getenv("DB_HOST", "postgres-database")
+DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = int(os.getenv("DB_PORT", 5432))
 DB_NAME = os.getenv("DB_NAME", "algo_db")
 DB_USER = os.getenv("DB_USER", "postgres")
@@ -36,6 +36,3 @@ CITIES = [
 DASH_HOST = os.getenv("DASH_HOST", "localhost")
 DASH_PORT = int(os.getenv("DASH_PORT", 8050))
 DASH_DEBUG = os.getenv("DASH_DEBUG", "False") == "True"
-
-# ── API parameters ──────────────────────────────────────────────────────
-API_URL = os.getenv("API_URL", "http://localhost:8000")

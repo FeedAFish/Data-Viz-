@@ -84,12 +84,6 @@ services:
     volumes:
       - ./api:/app
       - ./.env.example:/.env
-    environment:
-      DB_HOST: postgres-database
-      DB_PORT: 5432
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: algo_db
     depends_on:
       postgres:
         condition: service_healthy
@@ -115,8 +109,7 @@ services:
       - ./.env.example:/.env
     environment:
       DASH_HOST: 0.0.0.0
-      DASH_PORT: 8050
-      API_URL: http://api-service:8000
+      DASH_PORT: 8050    
     depends_on:
       api:
         condition: service_healthy

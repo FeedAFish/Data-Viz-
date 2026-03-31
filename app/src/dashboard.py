@@ -87,7 +87,7 @@ def update_kpi_cards(n_intervals):
         cards = []
         for row in reponse["data"]:
             aqi = row["aqi"] if row["aqi"] else "N/A"
-            color = get_aqi_gradient_color(aqi) if aqi != "N/A" else "grey"
+            color = get_aqi_gradient_color(aqi)
 
             cards.append(
                 dbc.Col(

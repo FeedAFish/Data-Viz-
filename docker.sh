@@ -21,6 +21,8 @@ restart() {
     stop
     sleep 2
     start
+    sleep 5
+    $COMPOSE_CMD exec -T postgres psql -U postgres -d algo_db -f /docker-entrypoint-initdb.d/02-init-algo-db.sql
 }
 
 shell() {

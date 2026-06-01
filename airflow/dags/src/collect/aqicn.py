@@ -5,7 +5,7 @@ import requests
 BASE_URL = "https://api.waqi.info/feed/geo:{lat};{lon}/?token={token}"
 
 
-def collect_city(city: dict) -> dict | None:
+def collect_city_air(city: dict) -> dict | None:
     url = BASE_URL.format(lat=city["lat"], lon=city["lon"], token=AQICN_TOKEN)
     try:
         resp = requests.get(url, timeout=10)
@@ -30,10 +30,10 @@ def collect_city(city: dict) -> dict | None:
         return None
 
 
-def collect_all() -> list[dict]:
+def collect_all_air() -> list[dict]:
     results = []
     for city in CITIES:
-        record = collect_city(city)
+        record = collect_city_air(city)
         if record:
             results.append(record)
     print(f"AQICN : {len(results)}/{len(CITIES)} villes collectées.")

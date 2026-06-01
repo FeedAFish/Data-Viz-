@@ -2,9 +2,9 @@ import requests
 from config.settings import API_URL
 
 
-def get_latest_air_kpis(city_name: str | None = None) -> dict:
+def get_latest_meteo_kpis(city_name: str | None = None) -> dict:
     try:
-        endpoint = f"{API_URL}/aqi/latest"
+        endpoint = f"{API_URL}/meteo/latest"
         response = requests.get(endpoint, timeout=10)
         response.raise_for_status()
         data = response.json()

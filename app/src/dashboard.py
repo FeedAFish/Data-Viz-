@@ -199,30 +199,15 @@ def update_kpi_unified_cards(n_intervals):
                     [
                         dbc.CardBody(
                             [
-                                # Header: City name and date
-                                dbc.Row(
-                                    [
-                                        dbc.Col(
-                                            [
-                                                html.H4(
-                                                    city_name.upper(),
-                                                    className="fw-bold mb-0",
-                                                ),
-                                                html.Small(
-                                                    format_timestamp(recorded_at),
-                                                    className="text-muted",
-                                                ),
-                                            ],
-                                            width="auto",
-                                        )
-                                    ],
-                                    className="mb-4",
-                                ),
                                 dbc.Row(
                                     [
                                         # Left section: Weather icon and temperature
                                         dbc.Col(
-                                            [
+                                            [   
+                                                html.H4(
+                                                    city_name.upper(),
+                                                    className="fw-bold mb-0",
+                                                ), # City name
                                                 html.Div(
                                                     [
                                                         html.Img(
@@ -346,7 +331,6 @@ def update_kpi_unified_cards(n_intervals):
                                                                 "font-size": "1.2em"
                                                             },
                                                         ),
-                                                        html.Strong("Wind: "),
                                                         (
                                                             f"{wind_speed} km/h ({wind_dir})"
                                                             if wind_speed != "N/A"
@@ -363,7 +347,6 @@ def update_kpi_unified_cards(n_intervals):
                                                                 "font-size": "1.2em"
                                                             },
                                                         ),
-                                                        html.Strong("Humidity: "),
                                                         (
                                                             f"{humidity}%"
                                                             if humidity != "N/A"
@@ -385,7 +368,7 @@ def update_kpi_unified_cards(n_intervals):
                     },
                     class_name="border-0",
                 ),
-                width=6,
+                width=3,
                 className="mb-4",
             )
 
